@@ -1,0 +1,304 @@
+{
+    "swaggerDefinition": {
+        "info": {
+            "title": "Swagger API",
+            "description": "Swagger API",
+            "version": "1.0.0",
+            "license": {
+                "name": "MIT",
+                "url": "https://opensource.org/licenses/MIT"
+            }
+        },
+        "securityDefinitions": {
+            "bearerAuth": {
+                "type": "apiKey",
+                "name": "authorization",
+                "scheme": "bearer",
+                "in": "header"
+            }
+        },
+        "host": "localhost:5000",
+        "basePath": "/",
+        "schemes": [
+            "http"
+        ],
+        "consumes": [
+            "application/json"
+        ],
+        "produces": [
+            "application/json"
+        ],
+        "tags": [
+            {
+                "name": "Auth",
+                "description": "Auth APIs"
+            },
+            {
+                "name": "Candidate"
+            }
+        ],
+        "paths": {
+            "/api/v1/auth/nec/register": {
+                "post": {
+                    "tags": [
+                        "Auth"
+                    ],
+                    "summary": "Create  NEC Member user",
+                    "parameters": [
+                        {
+                            "name": "nec user",
+                            "in": "body",
+                            "description": "NEC member object that needs to be added ",
+                            "required": true,
+                            "schema": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    ],
+                    "produces": [
+                        "application/json"
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "User added successfully"
+                        },
+                        "400": {
+                            "description": "Invalid user supplied"
+                        }
+                    }
+                }
+            },
+            "/api/v1/auth/candidate/register": {
+                "post": {
+                    "tags": [
+                        "Candidate"
+                    ],
+                    "summary": "Create Candidate user",
+                    "parameters": [
+                        {
+                            "name": "candidate",
+                            "in": "body",
+                            "description": "Candidate object that needs to be added ",
+                            "required": true,
+                            "schema": {
+                                "$ref": "#/definitions/Candidate"
+                            }
+                        }
+                    ],
+                    "produces": [
+                        "application/json"
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "User added successfully"
+                        },
+                        "400": {
+                            "description": "Invalid user supplied"
+                        }
+                    }
+                }
+            },
+            "/api/v1/auth/voter/register": {
+                "post": {
+                    "tags": [
+                        "Auth"
+                    ],
+                    "summary": "Create  Voter",
+                    "parameters": [
+                        {
+                            "name": "user",
+                            "in": "body",
+                            "description": "Voter object that needs to be added ",
+                            "required": true,
+                            "schema": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    ],
+                    "produces": [
+                        "application/json"
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "Voter added successfully"
+                        },
+                        "400": {
+                            "description": "Invalid voter supplied"
+                        }
+                    }
+                }
+            },
+            "/api/v1/auth/login": {
+                "post": {
+                    "tags": [
+                        "Auth"
+                    ],
+                    "summary": "Login of the user",
+                    "parameters": [
+                        {
+                            "name": "username",
+                            "in": "body",
+                            "description": "Adding user to login",
+                            "schema": {
+                                "$ref": "#/definitions/Login"
+                            }
+                        }
+                    ],
+                    "responses": {
+                        "201": {
+                            "description": "User Logged in successfully"
+                        },
+                        "400": {
+                            "description": "Bad request"
+                        },
+                        "500": {
+                            "description": "Internal Server Error"
+                        }
+                    }
+                }
+            },
+            "/api/v1/candidate/vote/{id}": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of candidate to vote",
+                        "type": "string"
+                    }
+                ],
+                "post": {
+                    "tags": [
+                        "Candidate"
+                    ],
+                    "security": [
+                        {
+                            "bearerAuth": []
+                        }
+                    ],
+                    "summary": "Vote for candidate",
+                    "parameters": [
+                        {
+                            "name": "candidate",
+                            "in": "body",
+                            "description": "Candidate object that needs to be voted ",
+                            "required": true,
+                            "schema": {
+                                "$ref": "#/definitions/Vote"
+                            }
+                        }
+                    ],
+                    "produces": [
+                        "application/json"
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "Candidate voted successfully"
+                        },
+                        "400": {
+                            "description": "Invalid candidate supplied"
+                        }
+                    }
+                }
+            },
+            "/api/v1/candidates": {
+                "get": {
+                    "tags": [
+                        "Candidate"
+                    ],
+                    "summary": "Get all Candidates",
+                    "security": [
+                        {
+                            "bearerAuth": []
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "All Candidates"
+                        }
+                    }
+                }
+            }
+        },
+        "definitions": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "phone": {
+                        "type": "string",
+                        "description": "Phone number of the user"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "Password of the user"
+                    },
+                    "nationalId": {
+                        "type": "string",
+                        "description": "nationalId of the user"
+                    },
+                    "fname": {
+                        "type": "string",
+                        "description": "Firstname of the user"
+                    },
+                    "lname": {
+                        "type": "string",
+                        "description": "Lastname of the user"
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "Address of the user"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "Email of the user"
+                    }
+                }
+            },
+            "Candidate": {
+                "type": "object",
+                "properties": {
+                    "fname": {
+                        "type": "string",
+                        "description": "Firstname of the candidate"
+                    },
+                    "lname": {
+                        "type": "string",
+                        "description": "Lastname of the candidate"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "description": "Gender of the candidate"
+                    },
+                    "missionStatement": {
+                        "type": "string",
+                        "description": "Mission Statement of the candidate"
+                    },
+                    "profilePicture": {
+                        "type": "string",
+                        "description": "Profile picture Statement of the candidate"
+                    }
+                }
+            },
+            "Login": {
+                "properties": {
+                    "iDOrPhoneOrEmail": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Vote": {
+                "properties": {
+                    "user": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "apis": [
+        "./src/routes/*"
+    ]
+}
